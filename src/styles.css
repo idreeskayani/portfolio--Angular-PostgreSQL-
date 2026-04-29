@@ -1,1 +1,98 @@
-/* You can add global styles to this file, and also import other style files */
+html { 
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #e2e8f0;
+  line-height: 1.7;
+  background: #000000;
+  overflow-x: hidden;
+}
+
+/* Scroll-triggered animations */
+.anim {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.anim.fade-left  { 
+  opacity: 0;
+  transform: translateX(-60px); 
+}
+
+.anim.fade-right { 
+  opacity: 0;
+  transform: translateX(60px); 
+}
+
+.anim.fade-up { 
+  opacity: 0;
+  transform: translateY(50px); 
+}
+
+.anim.scale-in {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.anim.visible { 
+  opacity: 1; 
+  transform: translate(0) scale(1); 
+}
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+.delay-7 { transition-delay: 0.7s; }
+.delay-8 { transition-delay: 0.8s; }
+
+/* Smooth hover transitions */
+a, button, .card, .btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00d4ff, #0099ff);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00e5ff, #00b3ff);
+}
+
+/* Selection color */
+::selection {
+  background: #00d4ff;
+  color: #000;
+}
+
+/* Glow effect utility */
+.glow {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+}

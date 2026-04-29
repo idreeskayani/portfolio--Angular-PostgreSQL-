@@ -1,11 +1,12 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { ROOT_ROUTES } from './navigator/root-navigation';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes)
+    provideRouter(ROOT_ROUTES, withComponentInputBinding()),
+    provideHttpClient()
   ]
 };

@@ -1,0 +1,29 @@
+<section id="about" class="section">
+  <div class="section-inner">
+    <h2 class="section-title anim fade-up">🚀 About Me</h2>
+    <div class="about-grid">
+      <div class="about-text anim fade-left">
+        @for (p of data.aboutParagraphs; track $index) {
+          <p>{{ p }}</p>
+        }
+      </div>
+      <div class="about-right">
+        <div class="goal-card anim fade-right">
+          <h3>🎯 My Goal</h3>
+          <p>My goal is to become a highly skilled Software Engineer who builds scalable and meaningful digital products. I aim to work on innovative solutions that solve real-world problems.</p>
+          <ul>
+            @for (interest of data.interests; track $index) {
+              <li>{{ interest }}</li>
+            }
+          </ul>
+        </div>
+        <div class="edu-card anim fade-right delay-2">
+          <h3>🎓 Education</h3>
+          <p class="edu-degree">{{ data.education.degree }}</p>
+          <p class="edu-inst">{{ data.education.institution }}</p>
+          <span class="edu-period">{{ data.education.period }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

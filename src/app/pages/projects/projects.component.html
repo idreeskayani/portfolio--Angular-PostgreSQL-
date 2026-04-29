@@ -1,0 +1,53 @@
+<section id="projects" class="section">
+  <div class="section-inner">
+    <h2 class="section-title anim fade-up">📱 Mobile Projects</h2>
+    <div class="projects-grid">
+      @for (project of mobileProjects; track project.name) {
+        <div class="project-card anim fade-up">
+          <div class="project-header">
+            <h3>{{ project.name }}</h3>
+            <span class="project-type">{{ project.type }}</span>
+          </div>
+          <p class="project-desc">{{ project.description }}</p>
+          <ul class="project-features">
+            @for (f of project.features; track $index) {
+              <li>{{ f }}</li>
+            }
+          </ul>
+          <div class="tech-stack">
+            @for (t of project.tech; track t) {
+              <span class="tech-tag">{{ t }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="section-inner">
+    <h2 class="section-title anim fade-up">🌐 Web Projects</h2>
+    <div class="projects-grid">
+      @for (project of webProjects; track project.name) {
+        <div class="project-card anim fade-up">
+          <div class="project-header">
+            <h3>{{ project.name }}</h3>
+            <span class="project-type">{{ project.type }}</span>
+          </div>
+          <p class="project-desc">{{ project.description }}</p>
+          <ul class="project-features">
+            @for (f of project.features; track $index) {
+              <li>{{ f }}</li>
+            }
+          </ul>
+          <div class="tech-stack">
+            @for (t of project.tech; track t) {
+              <span class="tech-tag">{{ t }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

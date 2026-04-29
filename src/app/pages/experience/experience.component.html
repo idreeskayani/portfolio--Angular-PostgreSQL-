@@ -1,0 +1,26 @@
+<section id="experience" class="section alt">
+  <div class="section-inner">
+    <h2 class="section-title anim fade-up">💼 Experience</h2>
+    <div class="timeline">
+      @for (exp of experience; track exp.company) {
+        <div class="timeline-item anim fade-up">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <div>
+                <h3>{{ exp.title }}</h3>
+                <p class="company">{{ exp.company }}</p>
+              </div>
+              <span class="period-badge">{{ exp.period }}</span>
+            </div>
+            <ul class="highlights">
+              @for (h of exp.highlights; track $index) {
+                <li>{{ h }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

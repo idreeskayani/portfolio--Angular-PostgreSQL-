@@ -1,0 +1,163 @@
+.section {
+  padding: 6rem 2rem;
+  background: #050505;
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+}
+
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 3rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #00d4ff, #0099ff);
+  border-radius: 2px;
+  animation: expand-line 1s ease forwards;
+}
+
+@keyframes expand-line {
+  from { width: 0; }
+  to { width: 80px; }
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.about-text p {
+  color: #94a3b8;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  line-height: 1.8;
+  border-left: 3px solid transparent;
+  padding-left: 1rem;
+  transition: all 0.3s ease;
+}
+
+.about-text p:hover {
+  border-left-color: #00d4ff;
+  color: #e2e8f0;
+  padding-left: 1.5rem;
+}
+
+.goal-card, .edu-card {
+  background: #0a0a0a;
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  border-radius: 1rem;
+  padding: 1.8rem;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #00d4ff;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.goal-card::before, .edu-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.goal-card:hover, .edu-card:hover {
+  border-color: #00d4ff;
+  box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.goal-card:hover::before, .edu-card:hover::before {
+  opacity: 1;
+}
+
+.goal-card h3, .edu-card h3 {
+  font-size: 1.2rem;
+  color: #00d4ff;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.goal-card p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1rem; }
+
+.goal-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.goal-card ul li {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  padding-left: 1.5rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.goal-card ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #00d4ff;
+  font-weight: 700;
+  transition: transform 0.3s;
+}
+
+.goal-card ul li:hover {
+  color: #e2e8f0;
+  padding-left: 2rem;
+}
+
+.goal-card ul li:hover::before {
+  transform: translateX(5px);
+}
+
+.edu-degree { font-weight: 700; color: #e2e8f0; font-size: 1rem; }
+.edu-inst { color: #94a3b8; font-size: 0.9rem; margin-top: 0.3rem; }
+
+.edu-period {
+  display: inline-block;
+  margin-top: 0.75rem;
+  background: rgba(0, 212, 255, 0.1);
+  color: #00d4ff;
+  padding: 0.3rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .section { padding: 4rem 1.5rem; }
+}

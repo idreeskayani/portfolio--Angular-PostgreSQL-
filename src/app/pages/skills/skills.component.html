@@ -1,0 +1,26 @@
+<section id="skills" class="section">
+  <div class="section-inner">
+    <h2 class="section-title anim fade-up">🛠️ Technical Skills</h2>
+    <div class="skills-grid">
+      @for (cat of skillCategories; track cat.category) {
+        <div class="skill-card anim fade-up">
+          <h3>{{ cat.icon }} {{ cat.category }}</h3>
+          <div class="skill-tags">
+            @for (skill of cat.skills; track skill) {
+              <span class="skill-tag">{{ skill }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="strengths anim fade-up">
+      <h3>💡 Core Strengths</h3>
+      <ul>
+        @for (s of strengths; track $index) {
+          <li>{{ s }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>
