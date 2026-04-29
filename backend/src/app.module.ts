@@ -24,6 +24,7 @@ import { Project } from './projects/entities/project.entity';
     }),
     ContactModule,
     ProjectsModule,
+    //
   ],
 })
 export class AppModule {}
