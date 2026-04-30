@@ -90,6 +90,7 @@ select option { background: #0d1117; }
   min-width: 280px;
   text-align: center;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  position: relative;
 }
 
 .modal p {
@@ -103,6 +104,22 @@ select option { background: #0d1117; }
   gap: 0.75rem;
   justify-content: center;
 }
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.modal-close:hover { color: #e2e8f0; }
 
 .toast {
   position: fixed;

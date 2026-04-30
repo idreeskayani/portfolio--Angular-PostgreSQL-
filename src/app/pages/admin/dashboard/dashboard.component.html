@@ -12,6 +12,7 @@
   <!-- Logout Modal -->
   <div class="modal-overlay" *ngIf="showLogoutModal">
     <div class="modal">
+      <button class="modal-close" (click)="showLogoutModal = false">✕</button>
       <p>Are you sure you want to logout?</p>
       <div class="modal-actions">
         <button class="btn-save" (click)="confirmLogout()">Yes, Logout</button>

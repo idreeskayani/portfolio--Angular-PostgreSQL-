@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -50,18 +50,19 @@ export class DashboardComponent implements OnInit {
   constructor(
     private portfolioService: PortfolioService,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() { this.loadAll(); }
 
   loadAll() {
     this.portfolioService.invalidateCache();
-    this.portfolioService.getProfile().subscribe(d => this.profile = { ...d });
-    this.portfolioService.getExperience().subscribe(d => this.experience = d);
-    this.portfolioService.getProjects().subscribe(d => this.projects = d);
-    this.portfolioService.getSkills().subscribe(d => this.skills = d);
-    this.portfolioService.getAdminBlogs().subscribe(d => this.blogs = d);
+    this.portfolioService.getProfile().subscribe(d => { this.profile = { ...d }; this.cdr.detectChanges(); });
+    this.portfolioService.getExperience().subscribe(d => { this.experience = d; this.cdr.detectChanges(); });
+    this.portfolioService.getProjects().subscribe(d => { this.projects = d; this.cdr.detectChanges(); });
+    this.portfolioService.getSkills().subscribe(d => { this.skills = d; this.cdr.detectChanges(); });
+    this.portfolioService.getAdminBlogs().subscribe(d => { this.blogs = d; this.cdr.detectChanges(); });
   }
 
   // ── Profile ──
@@ -98,6 +99,7 @@ export class DashboardComponent implements OnInit {
 
   deleteExp(id: number) {
     this.deletingId['exp'] = id;
+    this.cdr.detectChanges();
     this.portfolioService.deleteExperience(id).subscribe({ next: () => { this.deletingId['exp'] = null; this.loadAll(); } });
   }
 
@@ -122,6 +124,7 @@ export class DashboardComponent implements OnInit {
 
   deleteProject(id: number) {
     this.deletingId['project'] = id;
+    this.cdr.detectChanges();
     this.portfolioService.deleteProject(id).subscribe({ next: () => { this.deletingId['project'] = null; this.loadAll(); } });
   }
 
@@ -142,6 +145,7 @@ export class DashboardComponent implements OnInit {
 
   deleteSkill(id: number) {
     this.deletingId['skill'] = id;
+    this.cdr.detectChanges();
     this.portfolioService.deleteSkill(id).subscribe({ next: () => { this.deletingId['skill'] = null; this.loadAll(); } });
   }
 
@@ -156,8 +160,8 @@ export class DashboardComponent implements OnInit {
     this.saving = false;
     this.toastVisible = false;
     this.toast = msg;
-    setTimeout(() => { this.toastVisible = true; });
-    setTimeout(() => { this.toastVisible = false; }, 3000);
+    setTimeout(() => { this.toastVisible = true; this.cdr.detectChanges(); });
+    setTimeout(() => { this.toastVisible = false; this.cdr.detectChanges(); }, 3000);
   }
 
   // ── Blogs ──
@@ -177,6 +181,7 @@ export class DashboardComponent implements OnInit {
 
   deleteBlog(id: number) {
     this.deletingId['blog'] = id;
+    this.cdr.detectChanges();
     this.portfolioService.deleteBlog(id).subscribe({ next: () => { this.deletingId['blog'] = null; this.loadAll(); } });
   }
 
