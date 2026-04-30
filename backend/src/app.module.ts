@@ -1,30 +1,46 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ContactModule } from './contact/contact.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { AdminUser } from './auth/admin-user.entity';
+import { Profile } from './profile/profile.entity';
+import { Experience } from './experience/experience.entity';
+import { Project } from './projects/project.entity';
+import { SkillCategory } from './skills/skill-category.entity';
+import { Blog } from './blogs/blog.entity';
+import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profile/profile.module';
+import { ExperienceModule } from './experience/experience.module';
 import { ProjectsModule } from './projects/projects.module';
-import { Contact } from './contact/entities/contact.entity';
-import { Project } from './projects/entities/project.entity';
+import { SkillsModule } from './skills/skills.module';
+import { BlogsModule } from './blogs/blogs.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get('DB_HOST'),
-        port: +config.get<number>('DB_PORT'),
-        database: config.get('DB_NAME'),
-        username: config.get('DB_USER'),
-        password: config.get('DB_PASSWORD'),
-        entities: [Contact, Project],
-        synchronize: true,
-      }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
-    ContactModule,
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST || 'localhost',
+      port: +(process.env.DB_PORT || 5432),
+      username: process.env.DB_USERNAME || 'postgres',
+      password: process.env.DB_PASSWORD || 'postgres',
+      database: process.env.DB_NAME || 'portfolio_db',
+      entities: [AdminUser, Profile, Experience, Project, SkillCategory, Blog],
+      synchronize: true,
+    }),
+    AuthModule,
+    ProfileModule,
+    ExperienceModule,
     ProjectsModule,
-    //
+    SkillsModule,
+    BlogsModule,
+    UploadModule,
   ],
 })
 export class AppModule {}

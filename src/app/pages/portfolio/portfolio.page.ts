@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { AboutComponent } from '../about/about.component';
 import { ExperienceComponent } from '../experience/experience.component';
@@ -9,6 +10,7 @@ import { ContactComponent } from '../contact/contact.component';
 @Component({
   selector: 'app-portfolio',
   imports: [
+    RouterLink,
     HomeComponent,
     AboutComponent,
     ExperienceComponent,
@@ -24,6 +26,7 @@ import { ContactComponent } from '../contact/contact.component';
     <app-projects />
     <app-skills />
     <app-contact />
+    <a routerLink="/admin/login" class="admin-fab" title="Admin Panel">⚙️</a>
   `,
   styles: [`
     .cursor-glow {
@@ -36,6 +39,29 @@ import { ContactComponent } from '../contact/contact.component';
       z-index: 9999;
       transform: translate(-50%, -50%);
       transition: left 0.1s ease, top 0.1s ease;
+    }
+    .admin-fab {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 44px;
+      height: 44px;
+      background: rgba(13, 17, 23, 0.9);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      text-decoration: none;
+      z-index: 1000;
+      opacity: 0.4;
+      transition: opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .admin-fab:hover {
+      opacity: 1;
+      border-color: rgba(0, 212, 255, 0.7);
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
     }
   `]
 })

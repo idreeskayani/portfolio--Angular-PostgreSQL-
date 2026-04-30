@@ -1,0 +1,408 @@
+<div class="dashboard">
+  <!-- Header -->
+  <header class="dash-header">
+    <h1>Portfolio Admin</h1>
+    <div class="header-right">
+      <button class="btn-logout" (click)="showLogoutModal = true">Logout</button>
+    </div>
+  </header>
+
+  <div class="toast" *ngIf="toastVisible">✅ {{ toast }}</div>
+
+  <!-- Logout Modal -->
+  <div class="modal-overlay" *ngIf="showLogoutModal">
+    <div class="modal">
+      <p>Are you sure you want to logout?</p>
+      <div class="modal-actions">
+        <button class="btn-save" (click)="confirmLogout()">Yes, Logout</button>
+        <button class="btn-cancel" (click)="showLogoutModal = false">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <nav class="tabs">
+    <button [class.active]="activeTab==='profile'" (click)="activeTab='profile'">Profile</button>
+    <button [class.active]="activeTab==='experience'" (click)="activeTab='experience'">Experience</button>
+    <button [class.active]="activeTab==='projects'" (click)="activeTab='projects'">Projects</button>
+    <button [class.active]="activeTab==='skills'" (click)="activeTab='skills'">Skills</button>
+    <button [class.active]="activeTab==='blogs'" (click)="activeTab='blogs'">Blogs</button>
+  </nav>
+
+  <div class="content">
+
+    <!-- ── PROFILE TAB ── -->
+    <div *ngIf="activeTab==='profile'" class="section">
+      <h2>Edit Profile</h2>
+      <div class="form-grid">
+        <div class="field"><label>Name</label><input [(ngModel)]="profile.name" /></div>
+        <div class="field"><label>Title</label><input [(ngModel)]="profile.title" /></div>
+        <div class="field"><label>Location</label><input [(ngModel)]="profile.location" /></div>
+        <div class="field"><label>Email</label><input [(ngModel)]="profile.email" /></div>
+        <div class="field"><label>Phone</label><input [(ngModel)]="profile.phone" /></div>
+        <div class="field"><label>GitHub URL</label><input [(ngModel)]="profile.github" /></div>
+        <div class="field"><label>LinkedIn URL</label><input [(ngModel)]="profile.linkedin" /></div>
+        <div class="field"><label>Degree</label><input [(ngModel)]="profile.degree" /></div>
+        <div class="field"><label>Institution</label><input [(ngModel)]="profile.institution" /></div>
+        <div class="field"><label>Education Period</label><input [(ngModel)]="profile.educationPeriod" /></div>
+      </div>
+
+      <div class="array-section">
+        <h3>About Paragraphs</h3>
+        <div *ngFor="let p of profile.aboutParagraphs; let i = index; trackBy: trackByIndex" class="array-item">
+          <textarea [(ngModel)]="profile.aboutParagraphs[i]" rows="3"></textarea>
+          <button class="btn-remove" (click)="removeAboutParagraph(i)">✕</button>
+        </div>
+        <button class="btn-add" (click)="addAboutParagraph()">+ Add Paragraph</button>
+      </div>
+
+      <div class="array-section">
+        <h3>Interests</h3>
+        <div *ngFor="let item of profile.interests; let i = index; trackBy: trackByIndex" class="array-item">
+          <input [(ngModel)]="profile.interests[i]" />
+          <button class="btn-remove" (click)="removeInterest(i)">✕</button>
+        </div>
+        <button class="btn-add" (click)="addInterest()">+ Add Interest</button>
+      </div>
+
+      <div class="array-section">
+        <h3>Strengths</h3>
+        <div *ngFor="let item of profile.strengths; let i = index; trackBy: trackByIndex" class="array-item">
+          <input [(ngModel)]="profile.strengths[i]" />
+          <button class="btn-remove" (click)="removeStrength(i)">✕</button>
+        </div>
+        <button class="btn-add" (click)="addStrength()">+ Add Strength</button>
+      </div>
+
+      <button class="btn-save" (click)="saveProfile()" [disabled]="saving">Save Profile</button>
+    </div>
+
+    <!-- ── EXPERIENCE TAB ── -->
+    <div *ngIf="activeTab==='experience'" class="section">
+      <h2>Experience</h2>
+
+      <div class="card" *ngFor="let exp of experience">
+        <div *ngIf="editingExp?.id !== exp.id" class="card-view">
+          <div class="card-info">
+            <strong>{{ exp.title }}</strong> @ {{ exp.company }}
+            <span class="period">{{ exp.period }}</span>
+          </div>
+          <div class="card-actions">
+            <button class="btn-edit" (click)="editingExp = { ...exp, highlights: [...exp.highlights] }">Edit</button>
+            <button class="btn-delete" (click)="deleteExp(exp.id)" [disabled]="deletingId['exp'] === exp.id">
+              <span *ngIf="deletingId['exp'] === exp.id" class="spinner"></span>
+              <span *ngIf="deletingId['exp'] !== exp.id">Delete</span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="editingExp?.id === exp.id" class="card-edit">
+          <div class="form-grid">
+            <div class="field"><label>Title</label><input [(ngModel)]="editingExp.title" /></div>
+            <div class="field"><label>Company</label><input [(ngModel)]="editingExp.company" /></div>
+            <div class="field"><label>Period</label><input [(ngModel)]="editingExp.period" /></div>
+            <div class="field"><label>Sort Order</label><input type="number" [(ngModel)]="editingExp.sortOrder" /></div>
+          </div>
+          <div class="array-section">
+            <h3>Highlights</h3>
+            <div *ngFor="let h of editingExp.highlights; let i = index; trackBy: trackByIndex" class="array-item">
+              <input [(ngModel)]="editingExp.highlights[i]" />
+              <button class="btn-remove" (click)="removeFromArray(editingExp.highlights, i)">✕</button>
+            </div>
+            <div class="inline-add">
+              <input [(ngModel)]="newExpHighlight" placeholder="New highlight" />
+              <button class="btn-add" (click)="newExpHighlight = addToArray(editingExp.highlights, newExpHighlight)">Add</button>
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button class="btn-save" (click)="saveExp(editingExp)">Save</button>
+            <button class="btn-cancel" (click)="editingExp = null">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Experience -->
+      <div class="card add-card">
+        <h3>Add New Experience</h3>
+        <div class="form-grid">
+          <div class="field"><label>Title</label><input [(ngModel)]="newExp.title" /></div>
+          <div class="field"><label>Company</label><input [(ngModel)]="newExp.company" /></div>
+          <div class="field"><label>Period</label><input [(ngModel)]="newExp.period" /></div>
+          <div class="field"><label>Sort Order</label><input type="number" [(ngModel)]="newExp.sortOrder" /></div>
+        </div>
+        <div class="array-section">
+          <h3>Highlights</h3>
+          <div *ngFor="let h of newExp.highlights; let i = index; trackBy: trackByIndex" class="array-item">
+            <span>{{ h }}</span>
+            <button class="btn-remove" (click)="removeFromArray(newExp.highlights, i)">✕</button>
+          </div>
+          <div class="inline-add">
+            <input [(ngModel)]="newExpHighlight" placeholder="Add highlight" />
+            <button class="btn-add" (click)="newExpHighlight = addToArray(newExp.highlights, newExpHighlight)">Add</button>
+          </div>
+        </div>
+        <button class="btn-save" (click)="addExp()">Add Experience</button>
+      </div>
+    </div>
+
+    <!-- ── PROJECTS TAB ── -->
+    <div *ngIf="activeTab==='projects'" class="section">
+      <h2>Projects</h2>
+
+      <div class="card" *ngFor="let proj of projects">
+        <div *ngIf="editingProject?.id !== proj.id" class="card-view">
+          <div class="card-info">
+            <strong>{{ proj.name }}</strong>
+            <span class="badge">{{ proj.category }}</span>
+            <span class="period">{{ proj.type }}</span>
+          </div>
+          <div class="card-actions">
+            <button class="btn-edit" (click)="editingProject = { ...proj, features: [...proj.features], tech: [...proj.tech] }">Edit</button>
+            <button class="btn-delete" (click)="deleteProject(proj.id)" [disabled]="deletingId['project'] === proj.id">
+              <span *ngIf="deletingId['project'] === proj.id" class="spinner"></span>
+              <span *ngIf="deletingId['project'] !== proj.id">Delete</span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="editingProject?.id === proj.id" class="card-edit">
+          <div class="form-grid">
+            <div class="field"><label>Name</label><input [(ngModel)]="editingProject.name" /></div>
+            <div class="field"><label>Type</label><input [(ngModel)]="editingProject.type" /></div>
+            <div class="field">
+              <label>Category</label>
+              <select [(ngModel)]="editingProject.category">
+                <option value="mobile">Mobile</option>
+                <option value="web">Web</option>
+              </select>
+            </div>
+            <div class="field"><label>Sort Order</label><input type="number" [(ngModel)]="editingProject.sortOrder" /></div>
+            <div class="field full"><label>Description</label><textarea [(ngModel)]="editingProject.description" rows="3"></textarea></div>
+          </div>
+          <div class="array-section">
+            <h3>Features</h3>
+            <div *ngFor="let f of editingProject.features; let i = index; trackBy: trackByIndex" class="array-item">
+              <input [(ngModel)]="editingProject.features[i]" />
+              <button class="btn-remove" (click)="removeFromArray(editingProject.features, i)">✕</button>
+            </div>
+            <div class="inline-add">
+              <input [(ngModel)]="newProjectFeature" placeholder="Add feature" />
+              <button class="btn-add" (click)="newProjectFeature = addToArray(editingProject.features, newProjectFeature)">Add</button>
+            </div>
+          </div>
+          <div class="array-section">
+            <h3>Tech Stack</h3>
+            <div class="tags">
+              <span class="tag" *ngFor="let t of editingProject.tech; let i = index">
+                {{ t }} <button (click)="removeFromArray(editingProject.tech, i)">✕</button>
+              </span>
+            </div>
+            <div class="inline-add">
+              <input [(ngModel)]="newProjectTech" placeholder="Add tech" />
+              <button class="btn-add" (click)="newProjectTech = addToArray(editingProject.tech, newProjectTech)">Add</button>
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button class="btn-save" (click)="saveProject(editingProject)">Save</button>
+            <button class="btn-cancel" (click)="editingProject = null">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Project -->
+      <div class="card add-card">
+        <h3>Add New Project</h3>
+        <div class="form-grid">
+          <div class="field"><label>Name</label><input [(ngModel)]="newProject.name" /></div>
+          <div class="field"><label>Type</label><input [(ngModel)]="newProject.type" /></div>
+          <div class="field">
+            <label>Category</label>
+            <select [(ngModel)]="newProject.category">
+              <option value="mobile">Mobile</option>
+              <option value="web">Web</option>
+            </select>
+          </div>
+          <div class="field"><label>Sort Order</label><input type="number" [(ngModel)]="newProject.sortOrder" /></div>
+          <div class="field full"><label>Description</label><textarea [(ngModel)]="newProject.description" rows="3"></textarea></div>
+        </div>
+        <div class="array-section">
+          <h3>Features</h3>
+          <div *ngFor="let f of newProject.features; let i = index; trackBy: trackByIndex" class="array-item">
+            <span>{{ f }}</span><button class="btn-remove" (click)="removeFromArray(newProject.features, i)">✕</button>
+          </div>
+          <div class="inline-add">
+            <input [(ngModel)]="newProjectFeature" placeholder="Add feature" />
+            <button class="btn-add" (click)="newProjectFeature = addToArray(newProject.features, newProjectFeature)">Add</button>
+          </div>
+        </div>
+        <div class="array-section">
+          <h3>Tech Stack</h3>
+          <div class="tags">
+            <span class="tag" *ngFor="let t of newProject.tech; let i = index">{{ t }} <button (click)="removeFromArray(newProject.tech, i)">✕</button></span>
+          </div>
+          <div class="inline-add">
+            <input [(ngModel)]="newProjectTech" placeholder="Add tech" />
+            <button class="btn-add" (click)="newProjectTech = addToArray(newProject.tech, newProjectTech)">Add</button>
+          </div>
+        </div>
+        <button class="btn-save" (click)="addProject()">Add Project</button>
+      </div>
+    </div>
+
+    <!-- ── SKILLS TAB ── -->
+    <div *ngIf="activeTab==='skills'" class="section">
+      <h2>Skills</h2>
+
+      <div class="card" *ngFor="let skill of skills">
+        <div *ngIf="editingSkill?.id !== skill.id" class="card-view">
+          <div class="card-info">
+            <strong>{{ skill.icon }} {{ skill.category }}</strong>
+            <span class="period">{{ skill.skills.join(', ') }}</span>
+          </div>
+          <div class="card-actions">
+            <button class="btn-edit" (click)="editingSkill = { ...skill, skills: [...skill.skills] }">Edit</button>
+            <button class="btn-delete" (click)="deleteSkill(skill.id)" [disabled]="deletingId['skill'] === skill.id">
+              <span *ngIf="deletingId['skill'] === skill.id" class="spinner"></span>
+              <span *ngIf="deletingId['skill'] !== skill.id">Delete</span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="editingSkill?.id === skill.id" class="card-edit">
+          <div class="form-grid">
+            <div class="field"><label>Category</label><input [(ngModel)]="editingSkill.category" /></div>
+            <div class="field"><label>Icon (emoji)</label><input [(ngModel)]="editingSkill.icon" /></div>
+            <div class="field"><label>Sort Order</label><input type="number" [(ngModel)]="editingSkill.sortOrder" /></div>
+          </div>
+          <div class="array-section">
+            <h3>Skills</h3>
+            <div class="tags">
+              <span class="tag" *ngFor="let s of editingSkill.skills; let i = index">
+                {{ s }} <button (click)="removeFromArray(editingSkill.skills, i)">✕</button>
+              </span>
+            </div>
+            <div class="inline-add">
+              <input [(ngModel)]="newSkillItem" placeholder="Add skill" />
+              <button class="btn-add" (click)="newSkillItem = addToArray(editingSkill.skills, newSkillItem)">Add</button>
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button class="btn-save" (click)="saveSkill(editingSkill)">Save</button>
+            <button class="btn-cancel" (click)="editingSkill = null">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Skill Category -->
+      <div class="card add-card">
+        <h3>Add Skill Category</h3>
+        <div class="form-grid">
+          <div class="field"><label>Category</label><input [(ngModel)]="newSkill.category" /></div>
+          <div class="field"><label>Icon (emoji)</label><input [(ngModel)]="newSkill.icon" /></div>
+          <div class="field"><label>Sort Order</label><input type="number" [(ngModel)]="newSkill.sortOrder" /></div>
+        </div>
+        <div class="array-section">
+          <h3>Skills</h3>
+          <div class="tags">
+            <span class="tag" *ngFor="let s of newSkill.skills; let i = index">{{ s }} <button (click)="removeFromArray(newSkill.skills, i)">✕</button></span>
+          </div>
+          <div class="inline-add">
+            <input [(ngModel)]="newSkillItem" placeholder="Add skill" />
+            <button class="btn-add" (click)="newSkillItem = addToArray(newSkill.skills, newSkillItem)">Add</button>
+          </div>
+        </div>
+        <button class="btn-save" (click)="addSkill()">Add Category</button>
+      </div>
+    </div>
+
+    <!-- ── BLOGS TAB ── -->
+    <div *ngIf="activeTab==='blogs'" class="section">
+      <h2>Blog Posts</h2>
+
+      <div class="card" *ngFor="let blog of blogs">
+        <div *ngIf="editingBlog?.id !== blog.id" class="card-view">
+          <div class="card-info">
+            <strong>{{ blog.title }}</strong>
+            <span class="badge" [class.published]="blog.published">{{ blog.published ? 'Published' : 'Draft' }}</span>
+            <span class="period">{{ blog.createdAt | date:'mediumDate' }}</span>
+          </div>
+          <div class="card-actions">
+            <button class="btn-edit" (click)="editingBlog = { ...blog, tags: [...blog.tags] }">Edit</button>
+            <button class="btn-delete" (click)="deleteBlog(blog.id)" [disabled]="deletingId['blog'] === blog.id">
+              <span *ngIf="deletingId['blog'] === blog.id" class="spinner"></span>
+              <span *ngIf="deletingId['blog'] !== blog.id">Delete</span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="editingBlog?.id === blog.id" class="card-edit">
+          <div class="form-grid">
+            <div class="field"><label>Title</label><input [(ngModel)]="editingBlog.title" (blur)="editingBlog.slug = generateSlug(editingBlog.title)" /></div>
+            <div class="field"><label>Slug</label><input [(ngModel)]="editingBlog.slug" /></div>
+            <div class="field full"><label>Excerpt</label><textarea [(ngModel)]="editingBlog.excerpt" rows="2"></textarea></div>
+            <div class="field full">
+              <label>Thumbnail</label>
+              <input type="file" accept="image/*" (change)="onThumbnailChange($event, editingBlog)" />
+              <span *ngIf="uploadingThumbnail" class="uploading">Uploading...</span>
+              <img *ngIf="editingBlog.thumbnail" [src]="'http://localhost:3000' + editingBlog.thumbnail" class="thumb-preview" />
+            </div>
+            <div class="field full"><label>Content (HTML)</label><textarea [(ngModel)]="editingBlog.content" rows="10" class="code-area"></textarea></div>
+            <div class="field">
+              <label>Published</label>
+              <select [(ngModel)]="editingBlog.published">
+                <option [ngValue]="true">Published</option>
+                <option [ngValue]="false">Draft</option>
+              </select>
+            </div>
+          </div>
+          <div class="array-section">
+            <h3>Tags</h3>
+            <div class="tags">
+              <span class="tag" *ngFor="let t of editingBlog.tags; let i = index">{{ t }} <button (click)="removeFromArray(editingBlog.tags, i)">✕</button></span>
+            </div>
+            <div class="inline-add">
+              <input [(ngModel)]="newBlogTagEdit" placeholder="Add tag" />
+              <button class="btn-add" (click)="newBlogTagEdit = addToArray(editingBlog.tags, newBlogTagEdit)">Add</button>
+            </div>
+          </div>
+          <div class="edit-actions">
+            <button class="btn-save" (click)="saveBlog(editingBlog)">Save</button>
+            <button class="btn-cancel" (click)="editingBlog = null">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New Blog -->
+      <div class="card add-card">
+        <h3>New Blog Post</h3>
+        <div class="form-grid">
+          <div class="field"><label>Title</label><input [(ngModel)]="newBlog.title" (blur)="newBlog.slug = generateSlug(newBlog.title)" /></div>
+          <div class="field"><label>Slug</label><input [(ngModel)]="newBlog.slug" /></div>
+          <div class="field full"><label>Excerpt</label><textarea [(ngModel)]="newBlog.excerpt" rows="2"></textarea></div>
+          <div class="field full">
+            <label>Thumbnail</label>
+            <input type="file" accept="image/*" (change)="onThumbnailChange($event, newBlog)" />
+            <span *ngIf="uploadingThumbnail" class="uploading">Uploading...</span>
+            <img *ngIf="newBlog.thumbnail" [src]="'http://localhost:3000' + newBlog.thumbnail" class="thumb-preview" />
+          </div>
+          <div class="field full"><label>Content (HTML)</label><textarea [(ngModel)]="newBlog.content" rows="10" class="code-area"></textarea></div>
+          <div class="field">
+            <label>Published</label>
+            <select [(ngModel)]="newBlog.published">
+              <option [ngValue]="true">Published</option>
+              <option [ngValue]="false">Draft</option>
+            </select>
+          </div>
+        </div>
+        <div class="array-section">
+          <h3>Tags</h3>
+          <div class="tags">
+            <span class="tag" *ngFor="let t of newBlog.tags; let i = index">{{ t }} <button (click)="removeFromArray(newBlog.tags, i)">✕</button></span>
+          </div>
+          <div class="inline-add">
+            <input [(ngModel)]="newBlogTag" placeholder="Add tag" />
+            <button class="btn-add" (click)="newBlogTag = addToArray(newBlog.tags, newBlogTag)">Add</button>
+          </div>
+        </div>
+        <button class="btn-save" (click)="addBlog()">Publish Blog</button>
+      </div>
+    </div>
+
+  </div>
+</div>

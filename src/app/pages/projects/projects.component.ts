@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PORTFOLIO } from '../../core/data/portfolio.data';
+import { PortfolioService } from '../../core/services/portfolio.service';
 
 @Component({
   selector: 'app-projects',
@@ -8,7 +8,17 @@ import { PORTFOLIO } from '../../core/data/portfolio.data';
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.css'
 })
-export class ProjectsComponent {
-  mobileProjects = PORTFOLIO.mobileProjects;
-  webProjects = PORTFOLIO.webProjects;
+export class ProjectsComponent implements OnInit {
+  mobileProjects: any[] = [];
+  webProjects: any[] = [];
+
+  constructor(private portfolioService: PortfolioService, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.portfolioService.getProjects().subscribe(data => {
+      this.mobileProjects = data.filter((p: any) => p.category === 'mobile');
+      this.webProjects = data.filter((p: any) => p.category === 'web');
+      this.cdr.detectChanges();
+    });
+  }
 }

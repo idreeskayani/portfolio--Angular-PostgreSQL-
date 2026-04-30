@@ -3,6 +3,7 @@
     <h2 class="section-title anim fade-up">📬 Get In Touch</h2>
     <p class="contact-sub anim fade-up">I'm open to new opportunities and collaborations. Feel free to reach out!</p>
 
+    @if (data) {
     <div class="contact-cards anim fade-up">
       <a [href]="'mailto:' + data.email" class="contact-card">
         <span class="contact-icon">📧</span>
@@ -22,17 +23,18 @@
         <span class="contact-icon">🔗</span>
         <div>
           <p class="contact-label">GitHub</p>
-          <p class="contact-value">idreeskayani</p>
+          <p class="contact-value">{{ data.github }}</p>
         </div>
       </a>
       <a [href]="data.linkedin" target="_blank" class="contact-card">
         <span class="contact-icon">🔗</span>
         <div>
           <p class="contact-label">LinkedIn</p>
-          <p class="contact-value">idrees-kayani</p>
+          <p class="contact-value">{{ data.linkedin }}</p>
         </div>
       </a>
     </div>
+    }
 
     <!-- Contact Form -->
     <form class="contact-form anim fade-up" (ngSubmit)="onSubmit()" #f="ngForm">

@@ -1,9 +1,13 @@
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
+  imports: [CommonModule],
   template: `
-    <nav class="navbar" [class.scrolled]="isScrolled">
+    <ng-container *ngIf="!isAdminRoute">
+      <nav class="navbar" [class.scrolled]="isScrolled">
       <span class="logo">
         <span class="logo-bracket">&lt;</span>IK<span class="logo-bracket">/&gt;</span>
       </span>
@@ -16,8 +20,8 @@ import { Component, HostListener } from '@angular/core';
         <li><a href="#contact"    class="nav-link">Contact</a></li>
       </ul>
     </nav>
-    <!-- Spacer so content starts below the fixed navbar -->
     <div class="navbar-spacer"></div>
+    </ng-container>
   `,
   styles: [`
     .navbar {
@@ -133,6 +137,13 @@ import { Component, HostListener } from '@angular/core';
 })
 export class NavbarComponent {
   isScrolled = false;
+  isAdminRoute = false;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(() => {
+      this.isAdminRoute = this.router.url.startsWith('/admin');
+    });
+  }
 
   @HostListener('window:scroll')
   onScroll() {
