@@ -12,8 +12,8 @@ export class Profile {
   @Column() phone!: string;
   @Column() github!: string;
   @Column() linkedin!: string;
-  @Column({ default: 'assets/imagepp.png' }) profilePic!: string;
-  @Column({ default: 'assets/Resume_Idrees.pdf' }) resumeUrl!: string;
+  @Column({ default: '/uploads/imagepp.png' }) profilePic!: string;
+  @Column({ default: '/uploads/Resume_Idrees.pdf' }) resumeUrl!: string;
   @Column('text', { array: true, default: [] }) aboutParagraphs!: string[];
   @Column('text', { array: true, default: [] }) interests!: string[];
   @Column('text', { array: true, default: [] }) strengths!: string[];

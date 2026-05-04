@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PortfolioService } from '../../core/services/portfolio.service';
+import { PortfolioService, resolveUrl } from '../../core/services/portfolio.service';
 
 @Component({
   selector: 'app-home',
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.portfolioService.getProfile().subscribe(p => {
-      this.data = p;
+      this.data = { ...p, profilePic: resolveUrl(p.profilePic), resumeUrl: resolveUrl(p.resumeUrl) };
       this.cdr.detectChanges();
     });
   }

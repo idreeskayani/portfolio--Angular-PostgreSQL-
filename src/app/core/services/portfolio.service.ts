@@ -3,6 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
 
 const API = 'http://localhost:3000/api';
+export const BASE_URL = 'http://localhost:3000';
+
+export function resolveUrl(path: string): string {
+  if (!path) return '';
+  return path.startsWith('/uploads/') ? BASE_URL + path : path;
+}
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService {
@@ -52,5 +58,11 @@ export class PortfolioService {
     const form = new FormData();
     form.append('file', file);
     return this.http.post<{ url: string }>(`${API}/upload/image`, form);
+  }
+
+  uploadResume(file: File): Observable<{ url: string }> {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.post<{ url: string }>(`${API}/upload/resume`, form);
   }
 }

@@ -71,6 +71,19 @@ select option { background: #0d1117; }
 .thumb-preview { max-width: 200px; max-height: 120px; object-fit: cover; border-radius: 6px; margin-top: 0.5rem; display: block; }
 .uploading { color: #00d4ff; font-size: 0.8rem; }
 
+.upload-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 0.4rem; }
+
+.btn-upload {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3);
+  color: #00d4ff; border-radius: 6px; padding: 0.5rem 1.1rem;
+  cursor: pointer; font-size: 0.85rem; white-space: nowrap; transition: background 0.2s;
+}
+.btn-upload:hover { background: rgba(0,212,255,0.18); }
+
+.resume-link { color: #00d4ff; font-size: 0.85rem; text-decoration: none; }
+.resume-link:hover { text-decoration: underline; }
+
 .modal-overlay {
   position: fixed;
   inset: 0;

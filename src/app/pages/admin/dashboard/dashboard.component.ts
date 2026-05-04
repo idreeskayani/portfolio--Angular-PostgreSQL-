@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PortfolioService } from '../../../core/services/portfolio.service';
+import { PortfolioService, resolveUrl } from '../../../core/services/portfolio.service';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -41,6 +41,8 @@ export class DashboardComponent implements OnInit {
   newBlogTagEdit = '';
 
   uploadingThumbnail = false;
+  uploadingProfilePic = false;
+  uploadingResume = false;
   saving = false;
   toast = '';
   toastVisible = false;
@@ -58,7 +60,10 @@ export class DashboardComponent implements OnInit {
 
   loadAll() {
     this.portfolioService.invalidateCache();
-    this.portfolioService.getProfile().subscribe(d => { this.profile = { ...d }; this.cdr.detectChanges(); });
+    this.portfolioService.getProfile().subscribe(d => {
+      this.profile = { ...d, profilePic: resolveUrl(d.profilePic), resumeUrl: resolveUrl(d.resumeUrl) };
+      this.cdr.detectChanges();
+    });
     this.portfolioService.getExperience().subscribe(d => { this.experience = d; this.cdr.detectChanges(); });
     this.portfolioService.getProjects().subscribe(d => { this.projects = d; this.cdr.detectChanges(); });
     this.portfolioService.getSkills().subscribe(d => { this.skills = d; this.cdr.detectChanges(); });
@@ -68,7 +73,12 @@ export class DashboardComponent implements OnInit {
   // ── Profile ──
   saveProfile() {
     this.saving = true;
-    this.portfolioService.updateProfile(this.profile).subscribe({
+    const payload = {
+      ...this.profile,
+      profilePic: this.profile.profilePic?.replace('http://localhost:3000', '') || this.profile.profilePic,
+      resumeUrl: this.profile.resumeUrl?.replace('http://localhost:3000', '') || this.profile.resumeUrl,
+    };
+    this.portfolioService.updateProfile(payload).subscribe({
       next: () => this.showToast('Profile saved!'),
       error: () => this.showToast('Error saving profile')
     });
@@ -190,8 +200,36 @@ export class DashboardComponent implements OnInit {
     if (!file) return;
     this.uploadingThumbnail = true;
     this.portfolioService.uploadImage(file).subscribe({
-      next: res => { target.thumbnail = res.url; this.uploadingThumbnail = false; },
+      next: res => { target.thumbnail = res.url; this.uploadingThumbnail = false; this.cdr.detectChanges(); },
       error: () => { this.showToast('Upload failed'); this.uploadingThumbnail = false; }
+    });
+  }
+
+  onProfilePicChange(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.uploadingProfilePic = true;
+    this.portfolioService.uploadImage(file).subscribe({
+      next: res => {
+        this.profile.profilePic = resolveUrl(res.url);
+        this.uploadingProfilePic = false;
+        this.cdr.detectChanges();
+      },
+      error: () => { this.showToast('Profile pic upload failed'); this.uploadingProfilePic = false; }
+    });
+  }
+
+  onResumeChange(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.uploadingResume = true;
+    this.portfolioService.uploadResume(file).subscribe({
+      next: res => {
+        this.profile.resumeUrl = resolveUrl(res.url);
+        this.uploadingResume = false;
+        this.cdr.detectChanges();
+      },
+      error: () => { this.showToast('Resume upload failed'); this.uploadingResume = false; }
     });
   }
 

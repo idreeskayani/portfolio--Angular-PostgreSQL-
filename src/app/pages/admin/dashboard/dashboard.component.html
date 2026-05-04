@@ -43,6 +43,31 @@
         <div class="field"><label>Phone</label><input [(ngModel)]="profile.phone" /></div>
         <div class="field"><label>GitHub URL</label><input [(ngModel)]="profile.github" /></div>
         <div class="field"><label>LinkedIn URL</label><input [(ngModel)]="profile.linkedin" /></div>
+
+        <div class="field full">
+          <label>Profile Picture</label>
+          <div class="upload-row">
+            <img *ngIf="profile.profilePic" [src]="profile.profilePic" class="thumb-preview" />
+            <label class="btn-upload">
+              <span *ngIf="uploadingProfilePic">Uploading...</span>
+              <span *ngIf="!uploadingProfilePic">📷 Change Photo</span>
+              <input type="file" accept="image/*" (change)="onProfilePicChange($event)" hidden />
+            </label>
+          </div>
+        </div>
+
+        <div class="field full">
+          <label>Resume (PDF)</label>
+          <div class="upload-row">
+            <a *ngIf="profile.resumeUrl" [href]="profile.resumeUrl" target="_blank" class="resume-link">📄 View Current Resume</a>
+            <label class="btn-upload">
+              <span *ngIf="uploadingResume">Uploading...</span>
+              <span *ngIf="!uploadingResume">📎 Upload New Resume</span>
+              <input type="file" accept="application/pdf" (change)="onResumeChange($event)" hidden />
+            </label>
+          </div>
+        </div>
+
         <div class="field"><label>Degree</label><input [(ngModel)]="profile.degree" /></div>
         <div class="field"><label>Institution</label><input [(ngModel)]="profile.institution" /></div>
         <div class="field"><label>Education Period</label><input [(ngModel)]="profile.educationPeriod" /></div>
