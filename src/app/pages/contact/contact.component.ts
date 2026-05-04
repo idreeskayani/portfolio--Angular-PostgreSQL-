@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactService } from '../../core/contact.service';
@@ -17,7 +17,11 @@ export class ContactComponent implements OnInit {
   form = { name: '', email: '', message: '' };
   status: 'idle' | 'loading' | 'success' | 'error' = 'idle';
 
-  constructor(private contactService: ContactService, private portfolioService: PortfolioService) {}
+  constructor(
+    private contactService: ContactService,
+    private portfolioService: PortfolioService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.portfolioService.getProfile().subscribe(p => this.data = p);
@@ -30,8 +34,14 @@ export class ContactComponent implements OnInit {
       next: () => {
         this.status = 'success';
         this.form = { name: '', email: '', message: '' };
+        this.cdr.detectChanges();
+        setTimeout(() => { this.status = 'idle'; this.cdr.detectChanges(); }, 4000);
       },
-      error: () => (this.status = 'error')
+      error: () => {
+        this.status = 'error';
+        this.cdr.detectChanges();
+        setTimeout(() => { this.status = 'idle'; this.cdr.detectChanges(); }, 4000);
+      }
     });
   }
 }

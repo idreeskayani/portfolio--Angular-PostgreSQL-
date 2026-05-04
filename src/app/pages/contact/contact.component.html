@@ -60,9 +60,10 @@
         {{ status === 'loading' ? 'Sending...' : 'Send Message 🚀' }}
       </button>
 
-      <p *ngIf="status === 'success'" class="form-feedback success">✅ Message sent successfully!</p>
-      <p *ngIf="status === 'error'" class="form-feedback error">❌ Something went wrong. Please try again.</p>
     </form>
+
+    <p *ngIf="status === 'success'" class="toast toast-success">✅ Message sent successfully!</p>
+    <p *ngIf="status === 'error'" class="toast toast-error">❌ Something went wrong. Please try again.</p>
 
     <div class="resume-cta anim fade-up">
       <p class="resume-cta-text">Want to know more about my experience?</p>

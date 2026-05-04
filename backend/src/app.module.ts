@@ -9,6 +9,8 @@ import { Experience } from './experience/experience.entity';
 import { Project } from './projects/project.entity';
 import { SkillCategory } from './skills/skill-category.entity';
 import { Blog } from './blogs/blog.entity';
+import { Contact } from './contact/contact.entity';
+import { ContactModule } from './contact/contact.module';
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { ExperienceModule } from './experience/experience.module';
@@ -31,7 +33,7 @@ import { UploadModule } from './upload/upload.module';
       username: process.env.DB_USERNAME || 'postgres',
       password: process.env.DB_PASSWORD || 'postgres',
       database: process.env.DB_NAME || 'portfolio_db',
-      entities: [AdminUser, Profile, Experience, Project, SkillCategory, Blog],
+      entities: [AdminUser, Profile, Experience, Project, SkillCategory, Blog, Contact],
       synchronize: true,
     }),
     AuthModule,
@@ -41,6 +43,7 @@ import { UploadModule } from './upload/upload.module';
     SkillsModule,
     BlogsModule,
     UploadModule,
+    ContactModule,
   ],
 })
 export class AppModule {}
