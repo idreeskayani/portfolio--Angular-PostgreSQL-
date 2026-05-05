@@ -366,7 +366,7 @@
               <label>Thumbnail</label>
               <input type="file" accept="image/*" (change)="onThumbnailChange($event, editingBlog)" />
               <span *ngIf="uploadingThumbnail" class="uploading">Uploading...</span>
-              <img *ngIf="editingBlog.thumbnail" [src]="'http://localhost:3000' + editingBlog.thumbnail" class="thumb-preview" />
+              <img *ngIf="editingBlog.thumbnail" [src]="editingBlog.thumbnail" class="thumb-preview" />
             </div>
             <div class="field full"><label>Content (HTML)</label><textarea [(ngModel)]="editingBlog.content" rows="10" class="code-area"></textarea></div>
             <div class="field">
@@ -405,7 +405,7 @@
             <label>Thumbnail</label>
             <input type="file" accept="image/*" (change)="onThumbnailChange($event, newBlog)" />
             <span *ngIf="uploadingThumbnail" class="uploading">Uploading...</span>
-            <img *ngIf="newBlog.thumbnail" [src]="'http://localhost:3000' + newBlog.thumbnail" class="thumb-preview" />
+            <img *ngIf="newBlog.thumbnail" [src]="newBlog.thumbnail" class="thumb-preview" />
           </div>
           <div class="field full"><label>Content (HTML)</label><textarea [(ngModel)]="newBlog.content" rows="10" class="code-area"></textarea></div>
           <div class="field">

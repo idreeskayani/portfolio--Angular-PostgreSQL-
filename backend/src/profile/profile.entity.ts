@@ -9,7 +9,7 @@ export class Profile {
   @Column() title!: string;
   @Column() location!: string;
   @Column() email!: string;
-  @Column() phone!: string;
+  @Column({ nullable: true, default: '' }) phone!: string;
   @Column() github!: string;
   @Column() linkedin!: string;
   @Column({ default: '/uploads/imagepp.png' }) profilePic!: string;
