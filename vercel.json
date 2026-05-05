@@ -2,5 +2,6 @@
   "buildCommand": "npm install --include=dev && npx ng build",
   "outputDirectory": "dist/Demo",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+   
   
 }
