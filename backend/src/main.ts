@@ -10,6 +10,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin: [
+      'http://localhost:4200',
       'https://portfolio-angular-postgre-sql-h9k7-2t79uxn5j.vercel.app',
       /\.vercel\.app$/,
       /\.up\.railway\.app$/

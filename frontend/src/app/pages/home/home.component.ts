@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { PortfolioService, resolveUrl } from '../../core/services/portfolio.service';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [],
   template: `
-    <section class="hero" id="home" *ngIf="data">
+    @if (data) {
+    <section class="hero" id="home">
       <div class="particles">
         @for (i of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; track i) {
           <span class="particle" [style.animation-delay.s]="i * 0.4"></span>
@@ -45,6 +45,7 @@ import { PortfolioService, resolveUrl } from '../../core/services/portfolio.serv
         </div>
       </div>
     </section>
+    }  
   `,
   styleUrl: './home.component.css'
 })
