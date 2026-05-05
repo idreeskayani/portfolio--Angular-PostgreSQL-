@@ -73,10 +73,14 @@ export class DashboardComponent implements OnInit {
   // ── Profile ──
   saveProfile() {
     this.saving = true;
+    const stripBase = (url: string) => {
+      if (!url) return url;
+      try { return new URL(url).pathname; } catch { return url; }
+    };
     const payload = {
       ...this.profile,
-      profilePic: this.profile.profilePic?.replace('http://localhost:3000', '') || this.profile.profilePic,
-      resumeUrl: this.profile.resumeUrl?.replace('http://localhost:3000', '') || this.profile.resumeUrl,
+      profilePic: stripBase(this.profile.profilePic),
+      resumeUrl: stripBase(this.profile.resumeUrl),
     };
     this.portfolioService.updateProfile(payload).subscribe({
       next: () => this.showToast('Profile saved!'),
@@ -211,7 +215,7 @@ export class DashboardComponent implements OnInit {
     this.uploadingProfilePic = true;
     this.portfolioService.uploadImage(file).subscribe({
       next: res => {
-        this.profile.profilePic = resolveUrl(res.url);
+        this.profile.profilePic = res.url; // store relative path, resolveUrl only for display
         this.uploadingProfilePic = false;
         this.cdr.detectChanges();
       },
@@ -225,7 +229,7 @@ export class DashboardComponent implements OnInit {
     this.uploadingResume = true;
     this.portfolioService.uploadResume(file).subscribe({
       next: res => {
-        this.profile.resumeUrl = resolveUrl(res.url);
+        this.profile.resumeUrl = res.url; // store relative path, resolveUrl only for display
         this.uploadingResume = false;
         this.cdr.detectChanges();
       },
