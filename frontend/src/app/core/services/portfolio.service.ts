@@ -24,7 +24,7 @@ export class PortfolioService {
   }
 
   getProfile(): Observable<any> { return this.cached('profile', this.http.get(`${API}/profile`)); }
-  updateProfile(data: any): Observable<any> { this.cache.delete('profile'); return this.http.post(`${API}/profile`, data); }
+  updateProfile(data: any): Observable<any> { this.cache.delete('profile'); return this.http.put(`${API}/profile`, data); }
 
   getExperience(): Observable<any[]> { return this.cached('experience', this.http.get<any[]>(`${API}/experience`)); }
   createExperience(data: any): Observable<any> { this.cache.delete('experience'); return this.http.post(`${API}/experience`, data); }
