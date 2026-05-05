@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
-const API = 'https://portfolio-angular-postgresql-production.up.railway.app/api';
-export const BASE_URL = 'https://portfolio-angular-postgresql-production.up.railway.app';
+import { environment } from '../../../environments/environment';
+const API = environment.apiUrl;
+export const BASE_URL = environment.baseUrl;
 
 export function resolveUrl(path: string): string {
   if (!path) return '';
