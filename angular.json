@@ -10,7 +10,7 @@
       "projectType": "application",
       "schematics": {},
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "frontend/src",
       "prefix": "app",
       "architect": {
         "build": {
@@ -20,16 +20,17 @@
               "base": "dist/Demo",
               "browser": ""
             },
-            "browser": "src/main.ts",
+            "index": "frontend/src/index.html",
+            "browser": "frontend/src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/public"
+                "input": "frontend/src/public"
               }
             ],
             "styles": [
-              "src/styles.css"
+              "frontend/src/styles.css"
             ]
           },
           "configurations": {
