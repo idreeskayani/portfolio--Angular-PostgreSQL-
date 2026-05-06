@@ -127,7 +127,7 @@
             <div class="field"><label>Title</label><input [(ngModel)]="editingExp.title" /></div>
             <div class="field"><label>Company</label><input [(ngModel)]="editingExp.company" /></div>
             <div class="field"><label>Period</label><input [(ngModel)]="editingExp.period" /></div>
-            <div class="field"><label>Sort Order</label><input type="number" [(ngModel)]="editingExp.sortOrder" /></div>
+            <div class="field"><label>Sort Order</label><span class="sort-badge"># {{ editingExp.sortOrder }}</span></div>
           </div>
           <div class="array-section">
             <h3>Highlights</h3>
@@ -136,8 +136,8 @@
               <button class="btn-remove" (click)="removeFromArray(editingExp.highlights, i)">✕</button>
             </div>
             <div class="inline-add">
-              <input [(ngModel)]="newExpHighlight" placeholder="New highlight" />
-              <button class="btn-add" (click)="newExpHighlight = addToArray(editingExp.highlights, newExpHighlight)">Add</button>
+              <input [(ngModel)]="newExpHighlights[editingExp.id]" placeholder="New highlight" />
+              <button class="btn-add" (click)="newExpHighlights[editingExp.id] = addToArray(editingExp.highlights, newExpHighlights[editingExp.id] || '')">Add</button>
             </div>
           </div>
           <div class="edit-actions">
@@ -154,7 +154,6 @@
           <div class="field"><label>Title</label><input [(ngModel)]="newExp.title" /></div>
           <div class="field"><label>Company</label><input [(ngModel)]="newExp.company" /></div>
           <div class="field"><label>Period</label><input [(ngModel)]="newExp.period" /></div>
-          <div class="field"><label>Sort Order</label><input type="number" [(ngModel)]="newExp.sortOrder" /></div>
         </div>
         <div class="array-section">
           <h3>Highlights</h3>
@@ -163,8 +162,8 @@
             <button class="btn-remove" (click)="removeFromArray(newExp.highlights, i)">✕</button>
           </div>
           <div class="inline-add">
-            <input [(ngModel)]="newExpHighlight" placeholder="Add highlight" />
-            <button class="btn-add" (click)="newExpHighlight = addToArray(newExp.highlights, newExpHighlight)">Add</button>
+            <input [(ngModel)]="newExpHighlights['new']" placeholder="Add highlight" />
+            <button class="btn-add" (click)="newExpHighlights['new'] = addToArray(newExp.highlights, newExpHighlights['new'] || '')">Add</button>
           </div>
         </div>
         <button class="btn-save" (click)="addExp()">Add Experience</button>

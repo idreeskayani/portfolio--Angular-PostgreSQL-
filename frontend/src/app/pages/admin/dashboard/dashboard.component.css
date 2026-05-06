@@ -178,3 +178,4 @@ select option { background: #0d1117; }
 }
 
 .info-notice { color: #f59e0b; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: 6px; padding: 0.6rem 1rem; font-size: 0.85rem; margin-bottom: 1.25rem; }
+.sort-badge { color: #64748b; font-size: 0.85rem; padding: 0.4rem 0; display: block; }

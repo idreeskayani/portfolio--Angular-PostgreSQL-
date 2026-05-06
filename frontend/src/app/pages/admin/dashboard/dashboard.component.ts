@@ -27,13 +27,13 @@ export class DashboardComponent implements OnInit {
   editingBlog: any = null;
 
   // New item forms
-  newExp: any = { title: '', company: '', period: '', highlights: [], sortOrder: 0 };
+  newExp: any = { title: '', company: '', period: '', highlights: [] };
   newProject: any = { name: '', type: '', description: '', features: [], tech: [], category: 'mobile', sortOrder: 0 };
   newSkill: any = { category: '', icon: '', skills: [], sortOrder: 0 };
   newBlog: any = { title: '', slug: '', excerpt: '', content: '', tags: [], published: true };
 
   // Temp string inputs for array fields
-  newExpHighlight = '';
+  newExpHighlights: { [id: string]: string } = {};
   newProjectFeature = '';
   newProjectTech = '';
   newSkillItem = '';
@@ -105,8 +105,9 @@ export class DashboardComponent implements OnInit {
   }
 
   addExp() {
-    this.portfolioService.createExperience(this.newExp).subscribe({
-      next: () => { this.newExp = { title: '', company: '', period: '', highlights: [], sortOrder: 0 }; this.newExpHighlight = ''; this.showToast('Experience added!'); this.loadAll(); },
+    const sortOrder = this.experience.length + 1;
+    this.portfolioService.createExperience({ ...this.newExp, sortOrder }).subscribe({
+      next: () => { this.newExp = { title: '', company: '', period: '', highlights: [] }; this.newExpHighlights = {}; this.showToast('Experience added!'); this.loadAll(); },
       error: () => this.showToast('Error adding')
     });
   }
