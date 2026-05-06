@@ -1,5 +1,6 @@
-import { Controller, Get, Put, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Put, Body, UseGuards, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Response } from 'express';
 import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
@@ -8,8 +9,10 @@ export class ProfileController {
   constructor(private service: ProfileService) {}
 
   @Get()
-  findOne() {
-    return this.service.findOne();
+  async findOne(@Res() res: Response) {
+    const data = await this.service.findOne();
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    return res.json(data);
   }
 
   @Put()
