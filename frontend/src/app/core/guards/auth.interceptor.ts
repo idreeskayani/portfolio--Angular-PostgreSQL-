@@ -3,9 +3,11 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
 const PROTECTED_METHODS = ['POST', 'PUT', 'DELETE', 'PATCH'];
+const PROTECTED_GET_URLS = ['/blogs/admin/'];
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  if (!PROTECTED_METHODS.includes(req.method) || req.url.includes('/auth/')) {
+  const isProtectedGet = req.method === 'GET' && PROTECTED_GET_URLS.some(u => req.url.includes(u));
+  if ((!PROTECTED_METHODS.includes(req.method) && !isProtectedGet) || req.url.includes('/auth/')) {
     return next(req);
   }
 

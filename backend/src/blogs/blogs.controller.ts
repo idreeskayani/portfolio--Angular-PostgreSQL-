@@ -16,16 +16,16 @@ export class BlogsController {
     return this.service.findAll(page, limit);
   }
 
-  @Get(':slug')
-  findBySlug(@Param('slug') slug: string) {
-    return this.service.findBySlug(slug);
-  }
-
   // ── Admin routes (JWT protected) ──
   @Get('admin/all')
   @UseGuards(AuthGuard('jwt'))
   findAllAdmin() {
     return this.service.findAllAdmin();
+  }
+
+  @Get(':slug')
+  findBySlug(@Param('slug') slug: string) {
+    return this.service.findBySlug(slug);
   }
 
   @Post()

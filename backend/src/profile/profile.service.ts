@@ -8,8 +8,8 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 export class ProfileService {
   constructor(@InjectRepository(Profile) private repo: Repository<Profile>) {}
 
-  findOne() {
-    return this.repo.findOne({ where: { id: 1 } });
+  async findOne() {
+    return await this.repo.findOne({ where: { id: 1 } }) ?? {};
   }
 
   async update(dto: UpdateProfileDto) {

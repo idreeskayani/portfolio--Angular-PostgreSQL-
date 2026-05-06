@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, shareReplay, tap, catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 const API = environment.apiUrl;
 export const BASE_URL = environment.baseUrl;
@@ -18,7 +18,11 @@ export class PortfolioService {
 
   private cached<T>(key: string, req: Observable<T>): Observable<T> {
     if (!this.cache.has(key)) {
-      this.cache.set(key, req.pipe(shareReplay(1)));
+      const shared = req.pipe(
+        shareReplay(1),
+        catchError(err => { this.cache.delete(key); return throwError(() => err); })
+      );
+      this.cache.set(key, shared);
     }
     return this.cache.get(key)!;
   }
