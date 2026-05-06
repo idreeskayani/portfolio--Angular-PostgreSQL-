@@ -55,9 +55,13 @@ export class HomeComponent implements OnInit {
   constructor(private portfolioService: PortfolioService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.portfolioService.getProfile().subscribe(p => {
-      this.data = { ...p, profilePic: resolveUrl(p.profilePic), resumeUrl: resolveUrl(p.resumeUrl) };
-      this.cdr.detectChanges();
+    this.portfolioService.getProfile().subscribe({
+      next: p => {
+        if (!p || !p.name) return;
+        this.data = { ...p, profilePic: resolveUrl(p.profilePic), resumeUrl: resolveUrl(p.resumeUrl) };
+        this.cdr.detectChanges();
+      },
+      error: () => {}
     });
   }
 }
