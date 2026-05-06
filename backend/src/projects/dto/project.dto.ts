@@ -1,12 +1,12 @@
 import { IsString, IsArray, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateProjectDto {
-  @IsString() name: string;
-  @IsString() type: string;
-  @IsString() description: string;
-  @IsArray() features: string[];
-  @IsArray() tech: string[];
-  @IsString() category: string;
+  @IsString() name!: string;
+  @IsString() type!: string;
+  @IsString() description!: string;
+  @IsArray() features!: string[];
+  @IsArray() tech!: string[];
+  @IsString() category!: string;
   @IsOptional() @IsNumber() sortOrder?: number;
 }
 

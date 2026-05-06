@@ -1,10 +1,10 @@
 import { IsString, IsArray, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateExperienceDto {
-  @IsString() title: string;
-  @IsString() company: string;
-  @IsString() period: string;
-  @IsArray() highlights: string[];
+  @IsString() title!: string;
+  @IsString() company!: string;
+  @IsString() period!: string;
+  @IsArray() highlights!: string[];
   @IsOptional() @IsNumber() sortOrder?: number;
 }
 

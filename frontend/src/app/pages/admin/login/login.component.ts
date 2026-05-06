@@ -16,7 +16,7 @@ import { AuthService } from '../../../core/services/auth.service';
         <form (ngSubmit)="login()">
           <div class="field">
             <label>Email</label>
-            <input type="email" [(ngModel)]="email" name="email" placeholder="admin@portfolio.com" required />
+            <input type="email" [(ngModel)]="email" name="email" placeholder="admin@gmail.com" required />
           </div>
           <div class="field">
             <label>Password</label>

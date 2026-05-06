@@ -1,9 +1,9 @@
 import { IsString, IsArray, IsNumber, IsOptional } from 'class-validator';
 
 export class CreateSkillDto {
-  @IsString() category: string;
-  @IsString() icon: string;
-  @IsArray() skills: string[];
+  @IsString() category!: string;
+  @IsString() icon!: string;
+  @IsArray() skills!: string[];
   @IsOptional() @IsNumber() sortOrder?: number;
 }
 
