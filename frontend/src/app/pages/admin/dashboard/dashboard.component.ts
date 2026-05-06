@@ -56,18 +56,42 @@ export class DashboardComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() { this.loadAll(); }
+  ngOnInit() {
+    this.portfolioService.invalidateCache();
+    this.loadTab('profile');
+  }
+
+  switchTab(tab: string) {
+    this.activeTab = tab;
+    this.loadTab(tab);
+  }
+
+  loadTab(tab: string) {
+    switch (tab) {
+      case 'profile':
+        this.portfolioService.getProfile().subscribe(d => {
+          this.profile = { ...d, profilePic: resolveUrl(d.profilePic), resumeUrl: resolveUrl(d.resumeUrl) };
+          this.cdr.detectChanges();
+        });
+        break;
+      case 'experience':
+        this.portfolioService.getExperience().subscribe(d => { this.experience = d; this.cdr.detectChanges(); });
+        break;
+      case 'projects':
+        this.portfolioService.getProjects().subscribe(d => { this.projects = d; this.cdr.detectChanges(); });
+        break;
+      case 'skills':
+        this.portfolioService.getSkills().subscribe(d => { this.skills = d; this.cdr.detectChanges(); });
+        break;
+      case 'blogs':
+        this.portfolioService.getAdminBlogs().subscribe(d => { this.blogs = d; this.cdr.detectChanges(); });
+        break;
+    }
+  }
 
   loadAll() {
     this.portfolioService.invalidateCache();
-    this.portfolioService.getProfile().subscribe(d => {
-      this.profile = { ...d, profilePic: resolveUrl(d.profilePic), resumeUrl: resolveUrl(d.resumeUrl) };
-      this.cdr.detectChanges();
-    });
-    this.portfolioService.getExperience().subscribe(d => { this.experience = d; this.cdr.detectChanges(); });
-    this.portfolioService.getProjects().subscribe(d => { this.projects = d; this.cdr.detectChanges(); });
-    this.portfolioService.getSkills().subscribe(d => { this.skills = d; this.cdr.detectChanges(); });
-    this.portfolioService.getAdminBlogs().subscribe(d => { this.blogs = d; this.cdr.detectChanges(); });
+    this.loadTab(this.activeTab);
   }
 
   // ── Profile ──

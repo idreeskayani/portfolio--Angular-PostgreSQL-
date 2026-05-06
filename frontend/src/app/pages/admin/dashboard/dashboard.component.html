@@ -23,11 +23,11 @@
 
   <!-- Tabs -->
   <nav class="tabs">
-    <button [class.active]="activeTab==='profile'" (click)="activeTab='profile'">Profile</button>
-    <button [class.active]="activeTab==='experience'" (click)="activeTab='experience'">Experience</button>
-    <button [class.active]="activeTab==='projects'" (click)="activeTab='projects'">Projects</button>
-    <button [class.active]="activeTab==='skills'" (click)="activeTab='skills'">Skills</button>
-    <button [class.active]="activeTab==='blogs'" (click)="activeTab='blogs'">Blogs</button>
+    <button [class.active]="activeTab==='profile'" (click)="switchTab('profile')">Profile</button>
+    <button [class.active]="activeTab==='experience'" (click)="switchTab('experience')">Experience</button>
+    <button [class.active]="activeTab==='projects'" (click)="switchTab('projects')">Projects</button>
+    <button [class.active]="activeTab==='skills'" (click)="switchTab('skills')">Skills</button>
+    <button [class.active]="activeTab==='blogs'" (click)="switchTab('blogs')">Blogs</button>
   </nav>
 
   <div class="content">
