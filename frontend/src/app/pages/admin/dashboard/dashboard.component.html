@@ -34,7 +34,8 @@
 
     <!-- ── PROFILE TAB ── -->
     <div *ngIf="activeTab==='profile'" class="section">
-      <h2>Edit Profile</h2>
+      <h2>{{ profile.id ? 'Edit Profile' : 'Create Profile' }}</h2>
+      <p *ngIf="!profile.id" class="info-notice">No profile found. Fill in the form below to create it.</p>
       <div class="form-grid">
         <div class="field"><label>Name</label><input [(ngModel)]="profile.name" /></div>
         <div class="field"><label>Title</label><input [(ngModel)]="profile.title" /></div>
@@ -100,7 +101,7 @@
         <button class="btn-add" (click)="addStrength()">+ Add Strength</button>
       </div>
 
-      <button class="btn-save" (click)="saveProfile()" [disabled]="saving">Save Profile</button>
+      <button class="btn-save" (click)="saveProfile()" [disabled]="saving">{{ profile.id ? 'Update Profile' : 'Create Profile' }}</button>
     </div>
 
     <!-- ── EXPERIENCE TAB ── -->

@@ -176,3 +176,5 @@ select option { background: #0d1117; }
   .content { padding: 1rem; }
   .tabs button { padding: 0.75rem 0.75rem; font-size: 0.85rem; }
 }
+
+.info-notice { color: #f59e0b; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); border-radius: 6px; padding: 0.6rem 1rem; font-size: 0.85rem; margin-bottom: 1.25rem; }
