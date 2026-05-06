@@ -13,12 +13,16 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    origin: [
-      'http://localhost:4200',
-      'https://portfolio-angular-postgre-sql-h9k7-2t79uxn5j.vercel.app',
-      /\.vercel\.app$/,
-      /\.up\.railway\.app$/
-    ],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const allowed = [
+        'http://localhost:4200',
+        /\.vercel\.app$/,
+        /\.up\.railway\.app$/
+      ];
+      const isAllowed = allowed.some(o => typeof o === 'string' ? o === origin : o.test(origin));
+      callback(isAllowed ? null : new Error('CORS not allowed'), isAllowed);
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
